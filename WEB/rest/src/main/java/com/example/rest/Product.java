@@ -1,12 +1,10 @@
 package com.example.rest;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class Product {
 	
 	private long id;
@@ -14,4 +12,5 @@ public class Product {
 	private String name;
 	
 	private int price;
+
 }

@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test")
 public class TestController {
-	
-	
-	@GetMapping("/")
-	public Product getProduct() {
+		
+	@GetMapping("/p")
+	private Product getProdcut() {
 		
 		Product product = new Product();
 		
+		product.setId(1);
+		product.setName("Apple");
+		product.setPrice(111);
 		
 		return product;
 	}
-	
-	
 }
