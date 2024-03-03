@@ -8,10 +8,9 @@ import lombok.Setter;
 
 public class APIResponse {
 	
-	private String message;
-	
-	private Exception e;
-	
 	private String status = "success";
+	private String message;
+	private Object rsData;
+	
 	
 }
