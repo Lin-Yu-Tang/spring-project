@@ -1,27 +1,23 @@
-package com.tom.jpatest.entity;
+package com.tom.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name="product")
-@EqualsAndHashCode(of = { "pid" }, callSuper = false)
 @Data
-public class Product extends SoftDeleteEntity<Long, Product> implements Serializable {
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -54,4 +50,3 @@ public class Product extends SoftDeleteEntity<Long, Product> implements Serializ
     @UpdateTimestamp
     private Date lastUpdated;
 }
-

@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.tom.jpatest.entity.SoftDeleteEntity;
 
@@ -23,7 +27,7 @@ import com.tom.jpatest.entity.SoftDeleteEntity;
  */
 @NoRepositoryBean
 public interface SoftDeleteRepository<T extends SoftDeleteEntity<ID, T>, ID extends Serializable> 
-				extends CrudRepository<T, ID>, JpaRepository<T, ID> {
+extends JpaRepository<T, ID>, CrudRepository<T, ID> {
 
 	/** Override JpaRepository */
 	@Override
@@ -35,11 +39,34 @@ public interface SoftDeleteRepository<T extends SoftDeleteEntity<ID, T>, ID exte
 	@Transactional(readOnly = true)
 	@Query("SELECT e FROM #{#entityName} e WHERE e.isDeleted = false")
 	List<T> findAll(Sort sort);
+	
+	// TODO
+	@Transactional(readOnly = true)
+	@Query("SELECT e FROM #{#entityName} e ")
+	List<T> findAllWithDeleted();
+	
+	// TODO
+	@Transactional(readOnly = true)
+	@Query("SELECT e FROM #{#entityName} e ")
+	List<T> findAllWithDeleted(Sort sort);
 
 	@Override
 	@Transactional(readOnly = true)
 	@Query("SELECT e FROM #{#entityName} e WHERE e.id in ?1 and e.isDeleted = false")
 	List<T> findAllById(Iterable<ID> ids);
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT e FROM #{#entityName} e WHERE e.id in ?1")
+	List<T> findAllByIdWithDeleted(Iterable<ID> ids);
+	
+	@Override
+	@Transactional(readOnly = true)
+	@Query("SELECT e FROM #{#entityName} e WHERE e.isDeleted = false")
+	Page<T> findAll(Pageable pageable);
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT e FROM #{#entityName} e")
+	Page<T> findAllWithDeleted(Pageable pageable);
 
 	@Override
 	@Transactional(readOnly = true)
@@ -47,55 +74,83 @@ public interface SoftDeleteRepository<T extends SoftDeleteEntity<ID, T>, ID exte
 	T getOne(ID id);
 	
 	/** override CrudRepository */
-	@Override
-	@Transactional(readOnly = true)
-	@Query("SELECT e FROM #{#entityName} e WHERE e.id = ?1 and e.isDeleted = false")
-	Optional<T> findById(ID id);
-	
-	@Override
-	@Transactional(readOnly = true)
-	@Query("SELECT count(e)>0 FROM #{#entityName} e WHERE e.id = ?1 and e.isDeleted = false")
-	boolean existsById(ID id);
+//	@Override
+//	@Transactional(readOnly = true)
+//	@Query("SELECT e FROM #{#entityName} e WHERE e.id = ?1 and e.isDeleted = false")
+//	Optional<T> findById(ID id);
+//	
+//	@Override
+//	@Transactional(readOnly = true)
+//	@Query("SELECT count(e)>0 FROM #{#entityName} e WHERE e.id = ?1 and e.isDeleted = false")
+//	boolean existsById(ID id);
 
 	@Override
 	@Transactional(readOnly = true)
-	@Query("SELECT count(e) FROM #{#entityName} e WHERE e.isDeleted = false")
+	@Query("SELECT count(0) FROM #{#entityName} e WHERE e.isDeleted = false")
 	long count();
 	
 	@Override
-	@Deprecated
-	void delete(T entity);
-	
 	@Transactional
-	default void softDelete(T entity) {
+	default void delete(T entity) {
 		entity.setDeleted(true);
 		this.save(entity);
 	}
 
-	/** @Deprecated 請使用soft delete 資料的方法 */
 	@Override
-	@Deprecated
-	void deleteAll(Iterable<? extends T> entities);
-	
 	@Transactional
-	default void softDeleteAll(Iterable<? extends T> entities) {
-	    entities.forEach(entitiy -> entitiy.setDeleted(true));
-	    this.saveAll(entities);
+	default void deleteAll(Iterable<? extends T> entities) {
+		Assert.notNull(entities, "Entities must not be null!");
+		for (T entity : entities) {
+			if (entity != null) {
+				entity.setDeleted(true);
+				this.delete(entity);
+			}
+		}
 	}
-
-	/** @Deprecated 請使用soft delete 資料的方法 */
-	@Override
-	@Deprecated
-	void deleteAll();
 	
+	@Override
 	@Transactional
-	default void softDeleteAll() {
+	default void deleteAllInBatch() {
+		this.deleteAll();
+	}
+	
+	@Override
+	@Transactional
+	default void deleteAllInBatch(Iterable<T> entities) {
+		this.deleteAll(entities);
+	}
+	
+	@Override
+	@Transactional
+	default void deleteById(ID id) {
+		Optional<T> o = findById(id);
+		if (o.isPresent()) {
+			T t = o.get();
+			t.setDeleted(true);
+			save(t);
+		}
+	}
+	
+	@Override
+	@Transactional
+	default void deleteAllByIdInBatch(Iterable<ID> ids) {
+		List<T> all = findAllById(ids);
+		this.deleteAll(all);
+	}
+	
+	@Override
+	@Transactional
+	default void deleteAllById(Iterable<? extends ID> ids) {
+		Assert.notNull(ids, "Ids must not be null!");
+		for (ID id : ids) 
+			this.deleteById(id);
+	}
+	
+	@Override
+	@Transactional
+	default void deleteAll() {
 		List<T> entities = this.findAll();
-		this.softDeleteAll(entities);
+		this.deleteAll(entities);
 	}
-	
-	
-	
-	
 	
 }

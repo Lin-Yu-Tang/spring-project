@@ -1,11 +1,8 @@
-package com.tom.jpatest.service;
+package com.tom.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.hibernate.SQLQuery;
+import org.hibernate.jpa.spi.NativeQueryTupleTransformer;
 import org.hibernate.mapping.Map;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
@@ -15,8 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
 @Repository
-public class AppDAOImpl implements AppDAO {
+public class AppDAOImpl {
 
 	@Autowired
 	private EntityManager em;
@@ -29,7 +29,6 @@ public class AppDAOImpl implements AppDAO {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override
 	public List findByPage(int page) {
 		Query query = em.createNativeQuery("SELECT * FROM PRODUCT");
 //		query.unwrap(null);
@@ -49,7 +48,6 @@ public class AppDAOImpl implements AppDAO {
 	}
 	
 	
-	@Override
 	public List findByPage(Pageable pageable) {
 		Query query = em.createNativeQuery("SELECT * FROM PRODUCT");
 		
@@ -72,7 +70,26 @@ public class AppDAOImpl implements AppDAO {
 		return resultList;
 	}
 	
-	
+	public List findByPage2(Pageable pageable) {
+		Query query = em.createNativeQuery("SELECT * FROM PRODUCT");
+		
+		
+		Pageable p = pageable;
+		int pageNumber = p.getPageNumber();
+		int pageSize = p.getPageSize();
+		
+		System.out.println("page number: " + pageNumber);
+		System.out.println("size: " + pageSize);
+		
+		
+		NativeQueryTupleTransformer trans = new NativeQueryTupleTransformer();
+		trans.transformTuple(null, null);
+		query.unwrap(NativeQuery.class).setResultListTransformer(null);
+		query.setFirstResult(0);
+		query.setMaxResults(10);
+		List resultList = query.getResultList();
+		return resultList;
+	}
 	
 	
 	
