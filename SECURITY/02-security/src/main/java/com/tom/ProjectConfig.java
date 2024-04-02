@@ -24,7 +24,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import com.tom.entity.User;
 import com.tom.service.InMemoryUserDetailsService;
 
-@Order(2)
+@Order(1)
 @Configuration
 public class ProjectConfig {
 
@@ -37,15 +37,15 @@ public class ProjectConfig {
 	
 
 
-	@Bean
-	public UserDetailsService userDetailsService(DataSource dataSource) {
-		return new JdbcUserDetailsManager(dataSource);
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
-	}
+//	@Bean
+//	public UserDetailsService userDetailsService(DataSource dataSource) {
+//		return new JdbcUserDetailsManager(dataSource);
+//	}
+//
+//	@Bean
+//	public PasswordEncoder passwordEncoder() {
+//		return NoOpPasswordEncoder.getInstance();
+//	}
 
 //	@Bean
 //	public PasswordEncoder passwordEncoder2() {

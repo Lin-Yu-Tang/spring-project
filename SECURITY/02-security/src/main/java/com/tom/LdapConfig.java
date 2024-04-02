@@ -15,19 +15,18 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsManager;
 public class LdapConfig {
 
 	@Bean
-    public UserDetailsService userDetailsService() {
-        var cs = new DefaultSpringSecurityContextSource("ldap://127.0.0.1:33389/dc=springframework,dc=org");
-        cs.afterPropertiesSet();
+	public UserDetailsService userDetailsService() {
+		var cs = new DefaultSpringSecurityContextSource("ldap://127.0.0.1:33389/dc=springframework,dc=org");
+		cs.afterPropertiesSet();
 
-        LdapUserDetailsManager manager = new LdapUserDetailsManager(cs);
-        manager.setUsernameMapper(
-                new DefaultLdapUsernameToDnMapper("ou=groups", "uid"));
-        manager.setGroupSearchBase("ou=groups");
-        return manager;
-    }
-	
+		LdapUserDetailsManager manager = new LdapUserDetailsManager(cs);
+		manager.setUsernameMapper(new DefaultLdapUsernameToDnMapper("ou=groups", "uid"));
+		manager.setGroupSearchBase("ou=groups");
+		return manager;
+	}
+
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+	public PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
 }

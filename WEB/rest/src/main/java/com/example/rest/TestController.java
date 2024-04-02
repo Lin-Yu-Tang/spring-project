@@ -96,10 +96,9 @@ public class TestController {
 	
 	
 	@GetMapping("download")
-	public void manualDownload(@PathVariable("fileName") String fileName, HttpServletResponse response) 
-			throws IOException {
-		String rootPath = "";
-		
+	public void manualDownload(HttpServletResponse response) throws IOException {
+		String rootPath = "D://test";
+		String fileName = "2.pdf";
 		File file = Paths.get(rootPath + "/" + fileName).normalize().toFile();
 		try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file.getCanonicalPath()));
 		        OutputStream os = response.getOutputStream()) {

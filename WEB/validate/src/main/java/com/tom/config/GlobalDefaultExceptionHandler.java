@@ -72,9 +72,6 @@ public class GlobalDefaultExceptionHandler {
     			System.out.println("index: "+ i + ", " + arg[i]);
     		}
     	});
-    	
-    	
-    	System.out.println();
 	}
 
 

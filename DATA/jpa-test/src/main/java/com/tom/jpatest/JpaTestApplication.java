@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.tom.jpatest.entity.Product;
 import com.tom.jpatest.repository.ProductRepository;
@@ -29,6 +30,9 @@ public class JpaTestApplication {
 	
 	@Autowired
 	private ProductRepository repository;
+	
+	@Autowired
+	private JdbcTemplate template;
 	
 	@Bean
 	public CommandLineRunner commandLineRunner() {
@@ -69,13 +73,24 @@ public class JpaTestApplication {
 			
 			/** Native Query */
 //			findPage();
-			findPage2();
+//			findPage2();
+			
+			test();
 		};
 	}
 	
 	
 	
 	
+	private void test() {
+		Integer count = template.queryForObject(
+                "SELECT COUNT(0) FROM PRODUCT", Integer.class);
+		System.out.println("count: " + count);
+	}
+
+
+
+
 	private void findPage2() {
 		PageRequest pageable = PageRequest.of(0, 200);
 		dao.findByPage(pageable);
