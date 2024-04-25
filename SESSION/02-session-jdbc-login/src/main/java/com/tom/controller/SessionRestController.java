@@ -1,6 +1,5 @@
 package com.tom.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +18,7 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 public class SessionRestController {
 	
-	@GetMapping("hello")
-	public String test() {
-		return "hello";
-	}
-	
-	
-	@PostMapping("login")
+	@PostMapping("loginProcess")
     public String login(@RequestBody LoginDTO body, HttpServletRequest request) throws Exception {
         if (true) {
             UserInfoVO userInfo = new UserInfoVO();
@@ -41,7 +34,7 @@ public class SessionRestController {
     }
 	
 	
-	@GetMapping("basic")
+	@GetMapping("session")
 	public UserInfoVO getSession(HttpServletRequest request) {
 		
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -53,10 +46,6 @@ public class SessionRestController {
 								.getSession()
 								.getAttribute("USER_INFO");
 		System.out.println(userInfo);
-		if (userInfo == null) {
-			return new UserInfoVO();
-		}
-		
 		return userInfo;
 	}
 	
