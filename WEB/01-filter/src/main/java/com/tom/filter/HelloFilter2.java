@@ -10,9 +10,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Order(1)
+//@Order(1)
+@Slf4j
 public class HelloFilter2 extends OncePerRequestFilter {
 
 	@Override
@@ -23,6 +25,7 @@ public class HelloFilter2 extends OncePerRequestFilter {
 //        response.setHeader("Access-Control-Allow-Headers", "applicationid, Origin, X-Requested-With, Content-Type, Accept");
 //        response.setHeader("Access-Control-Allow-Methods", "GET,POST");
 		
+		log.info("::::::::HelloFilter2::::::::");
 		System.out.println("::::::::HelloFilter2::::::::");
 		
 		String header = request.getHeader("applicationId");
