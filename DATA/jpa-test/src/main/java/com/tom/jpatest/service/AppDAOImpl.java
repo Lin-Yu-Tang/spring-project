@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +21,9 @@ public class AppDAOImpl implements AppDAO {
 
 	@Autowired
 	private EntityManager em;
+	
+	@Autowired
+	private JdbcTemplate jdbc;
 	
 	
 	// TODO
