@@ -10,15 +10,18 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Order(2)
+//@Order(2)
+@Slf4j
 public class HelloFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
+		log.info("::::::::HelloFilter::::::::");
 		System.out.println("::::::::HelloFilter::::::::");
 		
 		String header = request.getHeader("applicationId");
