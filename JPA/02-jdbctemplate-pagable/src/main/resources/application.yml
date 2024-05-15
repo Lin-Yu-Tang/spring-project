@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@172.19.66.162:1521:PSPF
+    username: pspfsystex
+    password: 123456
+    hikari:
+      connection-timeout: 60000
+      idle-timeout: 600000
+      keepalive-time: 30000
+      max-lifetime: 600000
+      minimum-idle: 10
+      maximum-pool-size: 20
+      leak-detection-threshold: 5000
+  jpa:
+    show-sql: true
