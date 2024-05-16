@@ -21,17 +21,13 @@ public record Book (String id, String name, int pageCount, String authorId) {
     	List<Predicate<Book>> predicates = new ArrayList<>();
     	
     	Stream.of(ids).forEach(id -> predicates.add(e -> e.authorId().equals(id)));
-    	Predicate<Book> compositePredicate =
-    			predicates.stream()
-    		              .reduce(b -> true, Predicate::or);
-//    	List<Book> collect = books.stream()
-//					.filter(compositePredicate)
-//					.collect(Collectors.toList());
     	
+    	Predicate<Book> compositePredicate = predicates.stream()
+    		              							.reduce(b -> false, Predicate::or);
+
     	return books.stream()
-					.filter(b -> b.authorId().equals("author-2") ||
-							b.authorId().equals("author-3"))
-				.collect(Collectors.toList());
+					.filter(compositePredicate)
+					.collect(Collectors.toList());
     }
     
     public static List<Book> getAll() {
