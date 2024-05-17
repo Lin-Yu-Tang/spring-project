@@ -1,0 +1,6 @@
+# application.yml
+spring:
+  session:
+    timeout: 900
+  profiles:
+    active: dev
