@@ -14,6 +14,18 @@ public record Book (String id, String name, int pageCount, String authorId) {
             new Book("book-1", "Effective Java", 416, "author-1"),
             new Book("book-2", "Hitchhiker's Guide to the Galaxy", 208, "author-2"),
             new Book("book-3", "Hello world", 208, "author-3"),
+            new Book("book-4", "Hello world", 208, "author-3"),
+            new Book("book-5", "Hello world", 208, "author-3"),
+            new Book("book-6", "Hello world", 208, "author-3"),
+            new Book("book-7", "Hello world", 208, "author-3"),
+            new Book("book-8", "Hello world", 208, "author-3"),
+            new Book("book-9", "Hello world", 208, "author-3"),
+            new Book("book-10", "Hello world", 208, "author-3"),
+            new Book("book-11", "Hello world", 208, "author-3"),
+            new Book("book-12", "Hello world", 208, "author-3"),
+            new Book("book-13", "Hello world", 208, "author-3"),
+            new Book("book-14", "Hello world", 208, "author-3"),
+            new Book("book-15", "Hello world", 208, "author-3"),
             new Book("book-999", "Down Under", 436, "author-999")
     );
     
