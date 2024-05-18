@@ -1,5 +1,7 @@
 package com.tom.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,14 +10,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="instructor_detail")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class InstructorDetail {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="id", nullable = false)
 	private int id;
 	
 	@Column(name="youtube_channel")
@@ -27,54 +35,11 @@ public class InstructorDetail {
 //	@OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL) // also remove relate Instrutor
 	@OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private Instructor instructor;
-	
-	public InstructorDetail() {
-
-	}
 
 	public InstructorDetail(String youtubeChannel, String hobby) {
 		this.youtubeChannel = youtubeChannel;
 		this.hobby = hobby;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getYoutubeChannel() {
-		return youtubeChannel;
-	}
-
-	public void setYoutubeChannel(String youtubeChannel) {
-		this.youtubeChannel = youtubeChannel;
-	}
-
-	public String getHobby() {
-		return hobby;
-	}
-
-	public void setHobby(String hobby) {
-		this.hobby = hobby;
-	}
-
-	public Instructor getInstructor() {
-		return instructor;
-	}
-
-	public void setInstructor(Instructor instructor) {
-		this.instructor = instructor;
-	}
-
-	@Override
-	public String toString() {
-		return "InstructorDetail [id=" + id + ", youtubeChannel=" + youtubeChannel + ", hobby=" + hobby + "]";
-	}
-	
-	
 	
 	
 }

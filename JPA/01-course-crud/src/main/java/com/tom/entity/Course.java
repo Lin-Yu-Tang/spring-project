@@ -16,9 +16,15 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "course")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Course {
 	
 	@Id
@@ -43,55 +49,11 @@ public class Course {
 			joinColumns = @JoinColumn(name = "course_id"), 
 			inverseJoinColumns = @JoinColumn(name = "student_id"))
 	private List<Student> students;
-	
-	public Course() {}
 
 	public Course(String title) {
+		super();
 		this.title = title;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Instructor getInstructor() {
-		return instructor;
-	}
-
-	public void setInstructor(Instructor instructor) {
-		this.instructor = instructor;
-	}
-
-	public List<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
-	
-	
-	
-	public List<Student> getStudents() {
-		return students;
-	}
-
-	public void setStudents(List<Student> students) {
-		this.students = students;
-	}
-
 	
 	// add a convenience method
 	public void addReview(Review review) {
@@ -107,16 +69,5 @@ public class Course {
 		}
 		students.add(student);
 	}
-	
-	
-	
-	
-	@Override
-	public String toString() {
-		return "Course [id=" + id + ", title=" + title + ", instructor=" + instructor + "]";
-	}
-	
-	
-	
-	
+
 }

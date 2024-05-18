@@ -1,14 +1,22 @@
 package com.tom.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "review")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review {
 	
 	@Id
@@ -18,35 +26,5 @@ public class Review {
 	
 	@Column(name="comment")
 	private String comment;
-	
-	public Review() {}
-
-	public Review(String comment) {
-		this.comment = comment;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-	@Override
-	public String toString() {
-		return "Review [id=" + id + ", comment=" + comment + "]";
-	}
-	
-	
-	
 	
 }
