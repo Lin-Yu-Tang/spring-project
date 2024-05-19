@@ -24,7 +24,7 @@ public class AppDAOImpl implements AppDAO {
 	private EntityManager em;
 	
 	@Autowired
-	private JdbcTemplate template;
+	private JdbcTemplate jdbc;
 	
 	
 	// TODO
