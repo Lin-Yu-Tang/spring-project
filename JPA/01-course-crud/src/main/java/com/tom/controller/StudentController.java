@@ -17,14 +17,18 @@ import org.springframework.data.domain.Window;
 import org.springframework.data.support.WindowIterator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tom.dto.StudentSearchRequest;
 import com.tom.entity.Course;
 import com.tom.entity.Student;
 import com.tom.projection.NamesOnly;
 import com.tom.projection.StudentVO;
 import com.tom.repository.StudentRepository;
+import com.tom.service.StudentService;
 
 import jakarta.persistence.FetchType;
 
@@ -34,6 +38,9 @@ public class StudentController {
 
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	@Autowired
+	private StudentService studentService;
 
 	@GetMapping("all")
 	public List<Student> findAll() {
@@ -199,6 +206,18 @@ public class StudentController {
 		
 		return "";
 	}
+	
+	@PostMapping("/search")
+	public String searchByCondition(@RequestBody StudentSearchRequest body) {
+		
+		List<Student> students = studentService.findBySearchCondition(body);
+		
+		students.stream().forEach(System.out::println);
+		
+		return "";
+	}
+	
+	
 	
 	
 }
