@@ -6,10 +6,12 @@ import org.springframework.data.jpa.domain.Specification;
 import com.tom.entity.Student;
 import com.tom.spec.StudentSpecification;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class StudentSearchCondition implements SearchCondition<Student> {
 
