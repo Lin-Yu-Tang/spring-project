@@ -31,20 +31,23 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Student> findBySearchCondition(StudentSearchRequest searchRequest) {
 		
-		StudentSearchCondition studentSearchCondition = new StudentSearchCondition();
-		studentSearchCondition.setFirstName(searchRequest.firstName());
-		studentSearchCondition.setLastName(searchRequest.lastName());
+		StudentSearchCondition studentSearchCondition = StudentSearchCondition.builder()
+				.firstName(searchRequest.firstName())
+				.lastName(searchRequest.lastName())
+				.build();
 		
 		return studentRepository.findAll(studentSearchCondition.getSpecification());
 	}
 
 	@Override
 	public Page<Student> findPagingBySearchCondition(StudentSearchRequest searchRequest) {
-		PageRequest page = PageRequest.of(searchRequest.pageIndex() - 1, searchRequest.pageSize());
+		PageRequest page = PageRequest.of(searchRequest.pageRequest().page() - 1, 
+										  searchRequest.pageRequest().size());
 		
-		StudentSearchCondition studentSearchCondition = new StudentSearchCondition();
-		studentSearchCondition.setFirstName(searchRequest.firstName());
-		studentSearchCondition.setLastName(searchRequest.lastName());
+		StudentSearchCondition studentSearchCondition = StudentSearchCondition.builder()
+				.firstName(searchRequest.firstName())
+				.lastName(searchRequest.lastName())
+				.build();
 		
 		return studentRepository.findAll(studentSearchCondition.getSpecification(), page);
 	}

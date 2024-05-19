@@ -217,7 +217,15 @@ public class StudentController {
 		return "";
 	}
 	
-	
+	@PostMapping("/search/page")
+	public String searchByConditionPageable(@RequestBody StudentSearchRequest body) {
+		
+		Page<Student> students = studentService.findPagingBySearchCondition(body);
+		
+		students.stream().forEach(System.out::println);
+		
+		return "";
+	}
 	
 	
 }
