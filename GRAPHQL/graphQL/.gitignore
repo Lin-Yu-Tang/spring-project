@@ -1,16 +1,3 @@
-# Eclipse
-.classpath
-.settings
-.project
-
-# Build Files
-bin
-target
-build/
-.gradle
-
-# Operating System Files
-.DS_Store
 HELP.md
 .gradle
 build/
@@ -18,7 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# STS 
+### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -30,7 +17,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-# IntelliJ 
+### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
@@ -39,12 +26,12 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-# NetBeans
+### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-# VS Code
+### VS Code ###
 .vscode/

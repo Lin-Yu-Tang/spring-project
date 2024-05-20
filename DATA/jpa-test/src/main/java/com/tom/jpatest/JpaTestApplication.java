@@ -69,13 +69,14 @@ public class JpaTestApplication {
 			
 			
 			/** JPQL */
-//			findByName();
+			findByName();
 			
 			/** Native Query */
 //			findPage();
 //			findPage2();
 			
 			test();
+
 		};
 	}
 	
@@ -93,7 +94,8 @@ public class JpaTestApplication {
 
 	private void findPage2() {
 		PageRequest pageable = PageRequest.of(0, 200);
-		dao.findByPage(pageable);
+		List product = dao.findByPage(pageable);
+		product.forEach(System.out::println);
 	}
 
 
@@ -108,7 +110,8 @@ public class JpaTestApplication {
 
 
 	private void findByName() {
-		List<Product> products = repository.findByName("柳橙汁");
+		List<Product> products = repository.findByName("柳橙汁sss");
+		products.isEmpty();
 		products.forEach(System.out::println);
 	}
 //	private void queryNative() {
