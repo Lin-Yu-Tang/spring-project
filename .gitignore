@@ -1,0 +1,19 @@
+# Eclipse
+.classpath
+.settings
+.project
+
+# Build Files
+bin
+target
+build/
+.gradle
+
+# IntelliJ IDEA Files
+*.iml
+*.ipr
+*.iws
+*.idea
+
+# Operating System Files
+.DS_Store
