@@ -41,6 +41,11 @@ public class SpringSessionController {
 		return "redirect:/";
 	}
 
+	/**
+	 * session 失效
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/destroy")
 	public String destroySession(HttpServletRequest request) {
 		request.getSession().invalidate();
