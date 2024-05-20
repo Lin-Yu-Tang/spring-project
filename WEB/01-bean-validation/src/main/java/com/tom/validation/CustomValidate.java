@@ -25,7 +25,7 @@ import com.tom.validation.CustomValidate.List;
 @Repeatable(List.class)
 public @interface CustomValidate {
 
-	String message() default "invalid message";
+	String message() default "{custom.validation.message}";
 
 	String field() default "Field";
 
