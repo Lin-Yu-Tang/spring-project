@@ -30,6 +30,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
 	implementation 'net.lingala.zip4j:zip4j:2.11.5'
+	implementation 'com.google.guava:guava:33.2.0-jre'
 }
 
 tasks.named('test') {

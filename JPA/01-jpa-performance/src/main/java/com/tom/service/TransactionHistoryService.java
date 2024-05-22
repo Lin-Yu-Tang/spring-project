@@ -9,4 +9,6 @@ public interface TransactionHistoryService {
 
 	Page<TransactionHistory> findAllByPage(Pageable pageable);
 	
+	Page<TransactionHistory> findAllByJDBCPage(Pageable pageable);
+	
 }
