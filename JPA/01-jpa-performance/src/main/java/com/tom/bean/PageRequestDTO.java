@@ -1,5 +1,5 @@
 package com.tom.bean;
 
-public record PageRequestDTO(int page, int size) {
+public record PageRequestDTO(int page, int size, Integer nextCursor) {
 
 }

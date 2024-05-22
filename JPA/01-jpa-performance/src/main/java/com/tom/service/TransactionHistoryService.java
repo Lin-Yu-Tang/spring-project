@@ -11,4 +11,8 @@ public interface TransactionHistoryService {
 	
 	Page<TransactionHistory> findAllByJDBCPage(Pageable pageable);
 	
+	Page<TransactionHistory> findAllByJDBCPageAndSort(Pageable pageable);
+	
+	Page<TransactionHistory> findAllByCursorPageAndSort(Pageable pageable, Integer nextCursor);
+	
 }

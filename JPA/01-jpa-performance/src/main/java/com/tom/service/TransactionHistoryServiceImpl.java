@@ -44,7 +44,6 @@ public class TransactionHistoryServiceImpl implements TransactionHistoryService 
 		int pageSize = pageable.getPageSize();
 		int pageNumber = pageable.getPageNumber();
 		
-		// TODO
 		MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("START", pageNumber);
         params.addValue("END", pageNumber + pageSize);
@@ -91,6 +90,86 @@ public class TransactionHistoryServiceImpl implements TransactionHistoryService 
 	private String countQuery() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT count_big(0) FROM bigTransactionHistory ");
+		
+		return sb.toString();
+	}
+
+	@Override
+	public Page<TransactionHistory> findAllByJDBCPageAndSort(Pageable pageable) {
+		Stopwatch stopwatch = Stopwatch.createStarted();
+
+		int pageSize = pageable.getPageSize();
+		int pageNumber = pageable.getPageNumber();
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("START", pageNumber);
+        params.addValue("END", pageNumber + pageSize);
+        params.addValue("SIZE", pageSize);
+        
+		List<TransactionHistory> all = jdbcTemplate.query(jdbcQuery4(), params,
+				new BeanPropertyRowMapper<>(TransactionHistory.class));
+		
+		
+		Integer counter = jdbcTemplate.queryForObject(countQuery(), params, Integer.class);
+		System.out.println("count: " + counter);
+		
+		stopwatch.stop();
+		System.out.println("::::: JDBC SORT :::::");
+		measureTimeElapsed(stopwatch.elapsed(TimeUnit.NANOSECONDS));
+		
+//		all.forEach(System.out::println);
+		
+		return new PageImpl<TransactionHistory>(all);
+	}
+	
+	private String jdbcQuery3() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT * FROM ( ");
+		sb.append("SELECT *, ROW_NUMBER() OVER (ORDER BY TransactionID) as row FROM bigTransactionHistory ");
+		sb.append(") a WHERE a.row > :START and a.row <= :END ");
+		
+		return sb.toString();
+	}
+	
+	private String jdbcQuery4() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT * FROM bigTransactionHistory ");
+		sb.append("ORDER BY TransactionID OFFSET :START ROWS FETCH FIRST :SIZE ROWS ONLY ");
+		
+		return sb.toString();
+	}
+
+	@Override
+	public Page<TransactionHistory> findAllByCursorPageAndSort(Pageable pageable, Integer nextCursor) {
+		Stopwatch stopwatch = Stopwatch.createStarted();
+
+		int pageSize = pageable.getPageSize();
+		int pageNumber = pageable.getPageNumber();
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("SIZE", pageSize);
+        params.addValue("CURSOR_ID", nextCursor);
+        
+		List<TransactionHistory> all = jdbcTemplate.query(jdbcQuery5(pageNumber == 0), params,
+				new BeanPropertyRowMapper<>(TransactionHistory.class));
+		
+		Integer counter = jdbcTemplate.queryForObject(countQuery(), params, Integer.class);
+		System.out.println("count: " + counter);
+		
+		stopwatch.stop();
+		System.out.println("::::: CURSOR SORT :::::");
+		measureTimeElapsed(stopwatch.elapsed(TimeUnit.NANOSECONDS));
+		
+//		all.forEach(System.out::println);
+		
+		return new PageImpl<TransactionHistory>(all);
+	}
+	
+	private String jdbcQuery5(boolean isFirstPage) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT TOP (:SIZE) * FROM bigTransactionHistory ");
+		sb.append(isFirstPage ? "" : "WHERE TransactionID > :CURSOR_ID ");
+		sb.append("ORDER BY TransactionID ");
 		
 		return sb.toString();
 	}
