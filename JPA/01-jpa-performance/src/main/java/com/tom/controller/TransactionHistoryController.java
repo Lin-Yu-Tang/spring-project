@@ -16,14 +16,20 @@ public class TransactionHistoryController {
 	@Autowired
 	private TransactionHistoryService transactionHistoryService;
 	
-	@PostMapping("trans")
-	public String findAll(@RequestBody PageRequestDTO pageRequest) {
+	@PostMapping("jpa")
+	public String findAllByJPA(@RequestBody PageRequestDTO pageRequest) {
 		PageRequest pageable = PageRequest.of(pageRequest.page() - 1 , pageRequest.size());
 		transactionHistoryService.findAllByPage(pageable);
 		
 		return "";
 	}
 	
-	
+	@PostMapping("jdbc")
+	public String findAllByJDBC(@RequestBody PageRequestDTO pageRequest) {
+		PageRequest pageable = PageRequest.of(pageRequest.page() - 1 , pageRequest.size());
+		transactionHistoryService.findAllByJDBCPage(pageable);
+		
+		return "";
+	}
 	
 }
