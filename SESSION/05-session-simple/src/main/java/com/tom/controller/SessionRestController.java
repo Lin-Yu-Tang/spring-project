@@ -3,6 +3,7 @@ package com.tom.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,12 +13,16 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.tom.bean.LoginDTO;
 import com.tom.bean.UserInfoVO;
+import com.tom.service.LoginService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class SessionRestController {
+	
+	@Autowired
+	private LoginService loginService;
 	
 	@GetMapping("hello")
 	public String test() {
@@ -73,7 +78,13 @@ public class SessionRestController {
 		return "";
 	}
 	
+	@PostMapping("login-service")
+    public String loginService(@RequestBody LoginDTO body, HttpServletRequest request) throws Exception {
 
+		loginService.login(body);
+		
+		return "";
+    }
 	
 }
 
