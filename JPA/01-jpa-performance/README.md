@@ -4,7 +4,7 @@
 ## Background
 * DB Memory: 4096MB 
 
-![alt text](https://hackmd.io/_uploads/HyT2anh40.png)
+![alt text](https://drive.google.com/uc?id=1alrjg7P-kUrkbspXQqgyyrinLpwtjqrx)
 
 * Data Count: 31,263,601
 
